@@ -10,7 +10,7 @@ RUN apt-get update && apt-get upgrade && apt-get install -y \
     && docker-php-ext-install -j$(nproc) gd 
 
 COPY php.ini /usr/local/etc/php/
-RUN a2enmod rewrite ssl && service apache2 restart 
+RUN a2enmod rewrite ssl userdir && service apache2 restart 
 
 EXPOSE 80
 EXPOSE 443
