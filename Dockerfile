@@ -9,6 +9,7 @@ RUN apt-get update && apt-get upgrade && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd 
 
+COPY php.ini /usr/local/etc/php/
 RUN a2enmod rewrite ssl && service apache2 restart 
 
 EXPOSE 80
