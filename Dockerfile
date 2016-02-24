@@ -16,6 +16,8 @@ COPY php.ini /usr/local/etc/php/
 
 RUN sed -i 's/TLS_CACERT.*$/TLS_CACERT \/etc\/ssl\/certs\/ldap.pem/g' /etc/ldap/ldap.conf
 
+RUN echo "Europe/Berlin" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
+
 RUN a2enmod rewrite ssl headers userdir && service apache2 restart 
 
 EXPOSE 80
