@@ -1,5 +1,7 @@
 FROM php:5.6-apache
 
+RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
+
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
@@ -23,7 +25,7 @@ RUN a2enmod rewrite ssl headers userdir && service apache2 restart
 EXPOSE 80
 EXPOSE 443
 
-RUN /usr/bin/install -d -o 33 -g 33 /var/log/apache2 
+RUN /usr/bin/install -d -o www-data -g www-data /var/log/apache2 
 
 VOLUME /var/www/html
 VOLUME /etc/apache2/sites-enabled

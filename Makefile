@@ -5,7 +5,7 @@
 #
 
 NAME=local/apache
-DIR=dokuwiki
+DIR=php-docker
 
 .PHONY: all build build-nocache run 
 
