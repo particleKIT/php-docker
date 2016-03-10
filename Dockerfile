@@ -16,7 +16,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 
 COPY php.ini /usr/local/etc/php/
 
-RUN sed -i 's/TLS_CACERT.*$/TLS_CACERT \/etc\/ssl\/certs\/ldap.pem/g' /etc/ldap/ldap.conf
+RUN sed -i 's/TLS_CACERT.*$/TLS_CACERT \/etc\/apache2\/ssl\/ldap.pem/g' /etc/ldap/ldap.conf
 
 RUN echo "Europe/Berlin" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
 
