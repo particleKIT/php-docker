@@ -20,7 +20,7 @@ RUN sed -i 's/TLS_CACERT.*$/TLS_CACERT \/etc\/apache2\/ssl\/ldap.pem/g' /etc/lda
 
 RUN echo "Europe/Berlin" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
 
-RUN a2enmod rewrite ssl headers userdir && service apache2 restart 
+RUN a2enmod rewrite ssl headers userdir authz_groupfile && service apache2 restart 
 
 EXPOSE 80
 EXPOSE 443
