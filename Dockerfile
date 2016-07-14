@@ -1,20 +1,13 @@
-FROM php:5.6-apache
+FROM debian:jessie
 
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libmcrypt-dev \
-        libpng12-dev \
-        libldap2-dev \
-    && docker-php-ext-install -j$(nproc) iconv mcrypt \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \ 
-    && docker-php-ext-install -j$(nproc) gd \
-    && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
-    && docker-php-ext-install ldap
+    apache2 mcrypt php-pear php5-mcrypt php5-gd php5-ldap libfreetype6-dev \
+    libjpeg62-turbo-dev libmcrypt-dev libpng12-dev libldap2-dev \
+    libapache2-mod-php5 ca-certificates 
 
-COPY php.ini /usr/local/etc/php/
+COPY php.ini /etc/php5/apache2/php.ini
 
 RUN sed -i 's/TLS_CACERT.*$/TLS_CACERT \/etc\/apache2\/ssl\/ldap.pem/g' /etc/ldap/ldap.conf
 
@@ -40,3 +33,4 @@ ENV APACHE_LOCK_DIR=/var/lock/apache2
 ENV APACHE_LOG_DIR=/var/log/apache2
 ENV LANG=C
 
+CMD ["/usr/sbin/apache2", "-DFOREGROUND"]
