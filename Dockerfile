@@ -9,28 +9,21 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 
 COPY php.ini /etc/php5/apache2/php.ini
 
-RUN sed -i 's/TLS_CACERT.*$/TLS_CACERT \/etc\/apache2\/ssl\/ldap.pem/g' /etc/ldap/ldap.conf
+RUN sed -i 's/TLS_CACERT.*$/TLS_CACERT \/etc\/apache2\/ssl\/ldap.pem/g' /etc/ldap/ldap.conf &&\
+    echo "Europe/Berlin" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata &&\
+    a2enmod rewrite ssl headers userdir authz_groupfile && \
+    /usr/bin/install -d -o www-data -g www-data /var/log/apache2 
 
-RUN echo "Europe/Berlin" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
+EXPOSE 80 443
 
-RUN a2enmod rewrite ssl headers userdir authz_groupfile && service apache2 restart 
+VOLUME ["/var/www/html", "/etc/apache2/sites-enabled", "/etc/apache2/conf-enabled", "/etc/apache2/ssl"]
 
-EXPOSE 80
-EXPOSE 443
-
-RUN /usr/bin/install -d -o www-data -g www-data /var/log/apache2 
-
-VOLUME /var/www/html
-VOLUME /etc/apache2/sites-enabled
-VOLUME /etc/apache2/conf-enabled
-VOLUME /etc/apache2/ssl
-
-ENV APACHE_RUN_USER=www-data
-ENV APACHE_RUN_GROUP=www-data
-ENV APACHE_PID_FILE=/var/run/apache2/apache2.pid
-ENV APACHE_RUN_DIR=/var/run/apache2
-ENV APACHE_LOCK_DIR=/var/lock/apache2
-ENV APACHE_LOG_DIR=/var/log/apache2
-ENV LANG=C
+ENV APACHE_RUN_USER=www-data \
+    APACHE_RUN_GROUP=www-data \
+    APACHE_PID_FILE=/var/run/apache2/apache2.pid \
+    APACHE_RUN_DIR=/var/run/apache2 \
+    APACHE_LOCK_DIR=/var/lock/apache2 \
+    APACHE_LOG_DIR=/var/log/apache2 \
+    LANG=C
 
 CMD ["/usr/sbin/apache2", "-DFOREGROUND"]
