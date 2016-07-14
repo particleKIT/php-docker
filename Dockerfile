@@ -23,7 +23,7 @@ RUN /usr/bin/install -d -o www-data -g www-data /var/log/apache2
 VOLUME /var/www/html
 VOLUME /etc/apache2/sites-enabled
 VOLUME /etc/apache2/conf-enabled
-VOLUME /etc/ssl
+VOLUME /etc/apache2/ssl
 
 ENV APACHE_RUN_USER=www-data
 ENV APACHE_RUN_GROUP=www-data
