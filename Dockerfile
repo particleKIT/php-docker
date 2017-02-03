@@ -1,11 +1,11 @@
-FROM debian:jessie
+FROM ubuntu:xenial
 
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
-    apache2 mcrypt php-pear php5-mcrypt php5-gd php5-ldap libfreetype6-dev \
-    libjpeg62-turbo-dev libmcrypt-dev libpng12-dev libldap2-dev \
-    libapache2-mod-php5 ca-certificates 
+    apache2 mcrypt php-pear php7.0-mcrypt php7.0-gd php7.0-ldap libfreetype6-dev \
+    libmcrypt-dev libpng12-dev libldap2-dev \
+    libapache2-mod-php7.0 ca-certificates 
 
 COPY php.ini /etc/php5/apache2/php.ini
 
