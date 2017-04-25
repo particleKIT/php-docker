@@ -9,7 +9,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 COPY php.ini /etc/php5/apache2/php.ini
 
 RUN sed -i 's/TLS_CACERT.*$/TLS_CACERT \/etc\/apache2\/ssl\/ldap.pem/g' /etc/ldap/ldap.conf &&\
-    echo "Europe/Berlin" > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata &&\
+    ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime && dpkg-reconfigure -f noninteractive tzdata &&\
     a2enmod rewrite ssl headers userdir authz_groupfile && \
     /usr/bin/install -d -o www-data -g www-data /var/log/apache2 
 
