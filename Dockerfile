@@ -3,7 +3,7 @@ FROM ubuntu:xenial
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
-    apache2 mcrypt php7.0-mcrypt php7.0-gd php7.0-ldap php7.0-xml \
+    apache2 mcrypt php7.0-mcrypt php7.0-gd php7.0-ldap php7.0-xml php7.0-mbstring \
     libapache2-mod-php7.0 ca-certificates 
 
 COPY php.ini /etc/php5/apache2/php.ini
