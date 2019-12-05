@@ -1,4 +1,4 @@
-FROM ubuntu:xenial
+FROM ubuntu:bionic
 
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 
