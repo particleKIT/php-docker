@@ -1,4 +1,4 @@
-FROM ubuntu:bionic
+FROM ubuntu:20.04
 
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 
