@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 
@@ -10,10 +10,10 @@ RUN sed -i 's/TLS_CACERT.*$/TLS_CACERT \/etc\/apache2\/ssl\/ldap.pem/g' /etc/lda
     ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime && DEBIAN_FRONTEND=noninteractive dpkg-reconfigure -f noninteractive tzdata &&\
     a2enmod rewrite ssl headers userdir authz_groupfile && \
     /usr/bin/install -d -o www-data -g www-data /var/log/apache2 &&\
-    sed -i 's/^upload_max_filesize.*$/upload_max_filesize=100M/' /etc/php/7.*/apache2/php.ini &&\
-    sed -i 's/^upload_max_filesize.*$/upload_max_filesize=100M/' /etc/php/7.*/apache2/php.ini &&\
-    sed -i 's/^memory_limit.*$/memory_limit = 500M/' /etc/php/7.*/apache2/php.ini &&\
-    sed -i 's/^;date.timezone.*$/date.timezone="Europe\/Berlin"/' /etc/php/7.*/apache2/php.ini
+    sed -i 's/^upload_max_filesize.*$/upload_max_filesize=100M/' /etc/php/8.*/apache2/php.ini &&\
+    sed -i 's/^upload_max_filesize.*$/upload_max_filesize=100M/' /etc/php/8.*/apache2/php.ini &&\
+    sed -i 's/^memory_limit.*$/memory_limit = 500M/' /etc/php/8.*/apache2/php.ini &&\
+    sed -i 's/^;date.timezone.*$/date.timezone="Europe\/Berlin"/' /etc/php/8.*/apache2/php.ini
 
 EXPOSE 80 443
 
