@@ -16,21 +16,21 @@ RUN sed -i 's/TLS_CACERT.*$/TLS_CACERT \/etc\/apache2\/ssl\/ldap.pem/g' /etc/lda
     sed -i 's/^;date.timezone.*$/date.timezone="Europe\/Berlin"/' /etc/php/8.*/apache2/php.ini
 
 RUN mkdir -p /etc/modsecurity/ && \
-  tee /etc/modsecurity/modsecurity.conf <<EOF
-SecRuleEngine On
-SecRequestBodyAccess On
-SecResponseBodyAccess Off
-SecDefaultAction "phase:1,log,auditlog,pass"
-SecAuditEngine RelevantOnly
-SecAuditLog /var/log/apache2/modsec_audit.log
-SecDebugLog /var/log/apache2/modsec_debug.log
-SecDebugLogLevel 1
-SecRequestBodyLimit 13107200
-SecRequestBodyNoFilesLimit 131072
-SecRequestBodyInMemoryLimit 131072
-SecMultipartEngine Off
-Include /etc/modsecurity.d/rules/*.conf
-EOF
+  printf '%s\n' \
+    'SecRuleEngine On' \
+    'SecRequestBodyAccess On' \
+    'SecResponseBodyAccess Off' \
+    'SecDefaultAction "phase:1,log,auditlog,pass"' \
+    'SecAuditEngine RelevantOnly' \
+    'SecAuditLog /var/log/apache2/modsec_audit.log' \
+    'SecDebugLog /var/log/apache2/modsec_debug.log' \
+    'SecDebugLogLevel 1' \
+    'SecRequestBodyLimit 13107200' \
+    'SecRequestBodyNoFilesLimit 131072' \
+    'SecRequestBodyInMemoryLimit 131072' \
+    'SecMultipartEngine Off' \
+    'Include /etc/modsecurity.d/rules/*.conf' \
+    > /etc/modsecurity/modsecurity.conf
 
 RUN mkdir -p /etc/modsecurity.d/rules && \
     echo '# dummy placeholder rule' > /etc/modsecurity.d/rules/dummy.conf
