@@ -15,6 +15,11 @@ RUN sed -i 's/TLS_CACERT.*$/TLS_CACERT \/etc\/apache2\/ssl\/ldap.pem/g' /etc/lda
     sed -i 's/^memory_limit.*$/memory_limit = 500M/' /etc/php/8.*/apache2/php.ini &&\
     sed -i 's/^;date.timezone.*$/date.timezone="Europe\/Berlin"/' /etc/php/8.*/apache2/php.ini
 
+RUN mkdir -p /etc/modsecurity/ && echo "Include /etc/modsecurity.d/rules/*.conf" > /etc/modsecurity/modsecurity.conf
+
+RUN mkdir -p /etc/modsecurity.d/rules && \
+    echo '# dummy placeholder rule' > /etc/modsecurity.d/rules/dummy.conf
+
 EXPOSE 80 443
 
 VOLUME ["/var/www/html", "/etc/apache2/sites-enabled", "/etc/apache2/conf-enabled", "/etc/apache2/ssl", "/etc/modsecurity.d/rules"]
