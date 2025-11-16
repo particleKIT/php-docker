@@ -4,11 +4,11 @@ RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 
 RUN apt-get update && apt-get upgrade -y && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     apache2 mcrypt php-gd php-ldap php-xml php-mbstring \
-    libapache2-mod-php ca-certificates sendmail
+    libapache2-mod-php ca-certificates sendmail libapache2-mod-security2
 
 RUN sed -i 's/TLS_CACERT.*$/TLS_CACERT \/etc\/apache2\/ssl\/ldap.pem/g' /etc/ldap/ldap.conf &&\
     ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime && DEBIAN_FRONTEND=noninteractive dpkg-reconfigure -f noninteractive tzdata &&\
-    a2enmod rewrite ssl headers userdir authz_groupfile && \
+    a2enmod rewrite ssl headers userdir authz_groupfile security2 && \
     /usr/bin/install -d -o www-data -g www-data /var/log/apache2 &&\
     sed -i 's/^upload_max_filesize.*$/upload_max_filesize=100M/' /etc/php/8.*/apache2/php.ini &&\
     sed -i 's/^upload_max_filesize.*$/upload_max_filesize=100M/' /etc/php/8.*/apache2/php.ini &&\
@@ -17,7 +17,7 @@ RUN sed -i 's/TLS_CACERT.*$/TLS_CACERT \/etc\/apache2\/ssl\/ldap.pem/g' /etc/lda
 
 EXPOSE 80 443
 
-VOLUME ["/var/www/html", "/etc/apache2/sites-enabled", "/etc/apache2/conf-enabled", "/etc/apache2/ssl"]
+VOLUME ["/var/www/html", "/etc/apache2/sites-enabled", "/etc/apache2/conf-enabled", "/etc/apache2/ssl", "/etc/modsecurity.d/rules"]
 
 ENV APACHE_RUN_USER=www-data \
     APACHE_RUN_GROUP=www-data \
