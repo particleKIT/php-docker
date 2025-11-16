@@ -28,7 +28,6 @@ RUN mkdir -p /etc/modsecurity/ && \
     'SecRequestBodyLimit 13107200' \
     'SecRequestBodyNoFilesLimit 131072' \
     'SecRequestBodyInMemoryLimit 131072' \
-    'SecMultipartEngine Off' \
     'Include /etc/modsecurity.d/rules/*.conf' \
     > /etc/modsecurity/modsecurity.conf
 
