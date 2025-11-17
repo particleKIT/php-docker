@@ -18,7 +18,7 @@ RUN sed -i 's/TLS_CACERT.*$/TLS_CACERT \/etc\/apache2\/ssl\/ldap.pem/g' /etc/lda
 RUN mkdir -p /etc/modsecurity/ && \
   printf '%s\n' \
     'SecRuleEngine On' \
-    'SecRequestBodyAccess On' \
+    '#SecRequestBodyAccess On' \
     'SecResponseBodyAccess Off' \
     'SecDefaultAction "phase:1,log,auditlog,pass"' \
     'SecAuditEngine RelevantOnly' \
@@ -28,6 +28,8 @@ RUN mkdir -p /etc/modsecurity/ && \
     'SecRequestBodyLimit 13107200' \
     'SecRequestBodyNoFilesLimit 131072' \
     'SecRequestBodyInMemoryLimit 131072' \
+    'SecPcreMatchLimit 1000000' \
+    'SecPcreMatchLimitRecursion 1000000' \
     'Include /etc/modsecurity.d/rules/*.conf' \
     > /etc/modsecurity/modsecurity.conf
 
