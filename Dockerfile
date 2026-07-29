@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM debian:13
 
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 
